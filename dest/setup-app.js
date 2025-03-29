@@ -9,7 +9,7 @@ const setupApp = (app) => {
     app.use(express_1.default.json()); // middleware для парсинга JSON в теле запроса
     // основной роут
     app.get("/", (req, res) => {
-        res.status(200).send("Hello world!");
+        res.status(200).send("Hello my first BACK-END APP!");
     });
     return app;
 };
