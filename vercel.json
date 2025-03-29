@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites":
+  [{
+    "source": "/src/index.ts",
+    "destination": "/api"
+  }]
+}
