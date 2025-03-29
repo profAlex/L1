@@ -2,7 +2,7 @@
   "version": 2,
   "rewrites":
   [{
-    "source": "/(.*)",
-    "destination": "/src"
+    "source": "src/index.ts",
+    "destination": "src/index.ts"
   }]
 }
