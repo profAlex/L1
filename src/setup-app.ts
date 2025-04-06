@@ -29,7 +29,7 @@ export const setupApp = (app: Express) => {
         const newDriver: Driver = {
             id: driversDb.drivers.length ? driversDb.drivers[driversDb.drivers.length - 1].id + 1 : 1,
             status: DriverStatus.Online,
-            created: new Date(),
+            createdAt: new Date(),
             ...req.body
         };
 

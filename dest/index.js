@@ -15,3 +15,4 @@ app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
 });
 module.exports = app; //невозможно удалить, т.к. verсel выдает 500 ошибку после билда
+// export const app = express(); не работает с vercel
