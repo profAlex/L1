@@ -13,6 +13,6 @@ describe("Test API", () => {
         expect(res.text).toBe("Hello my first BACK-END APP!");
     });
 
-    it("GET /drivers")
+    //it("GET /drivers")
 
 });
