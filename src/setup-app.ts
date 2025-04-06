@@ -42,7 +42,7 @@ export const setupApp = (app: Express) => {
         driversDb.drivers = [];
         res.sendStatus(204);
     });
-    
+
     return app;
 };
 
