@@ -25,7 +25,7 @@ const setupApp = (app) => {
         res.status(200).send(driver);
     });
     app.post('/drivers', (req, res) => {
-        const newDriver = Object.assign({ id: mock_data_1.driversDb.drivers.length ? mock_data_1.driversDb.drivers[mock_data_1.driversDb.drivers.length - 1].id + 1 : 1, status: driver_types_1.DriverStatus.Online, created: new Date() }, req.body);
+        const newDriver = Object.assign({ id: mock_data_1.driversDb.drivers.length ? mock_data_1.driversDb.drivers[mock_data_1.driversDb.drivers.length - 1].id + 1 : 1, status: driver_types_1.DriverStatus.Online, createdAt: new Date() }, req.body);
         mock_data_1.driversDb.drivers.push(newDriver);
         res.status(201).send(newDriver);
     });

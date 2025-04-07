@@ -30,13 +30,13 @@ describe("Test API", () => {
         expect(res.status).toBe(HttpStatus.NoContent);
     });
 
-    it("GET / - should respond with a 200", async() => {
+    it("GET / - should respond with a 200 and a starting message", async() => {
         const res = await request(app).get("/");
         expect(res.status).toBe(HttpStatus.Ok);
         expect(res.text).toBe("Hello my first BACK-END APP!");
     });
 
-    it("POST drivers/ - should create driver", async() => {
+    it("POST drivers/ - should create a driver", async() => {
        const newDriver: DriverInputDto = {
            ...testDriverData
        };
@@ -49,7 +49,7 @@ describe("Test API", () => {
        expect(newDriverResponse.body.status).toBe(DriverStatus.Online);
     });
 
-    it("GET /drivers - should return drivers list", async() => {
+    it("GET /drivers - should return list of registered drivers", async() => {
         const newDriver: DriverInputDto = {
             ...testDriverData,
             name: 'Valentin2',
@@ -73,7 +73,7 @@ describe("Test API", () => {
 
     });
 
-    it('should return driver by id; GET /drivers/:id', async () => {
+    it('GET /drivers/:id - should return driver by id; ', async () => {
         const createResponse = await request(app)
             .post('/drivers')
             .send({ ...testDriverData, name: 'Another Driver' })
