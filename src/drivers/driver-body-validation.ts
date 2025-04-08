@@ -1,19 +1,6 @@
 import {DriverInputDto} from "./driver.input-dto";
 import {ValidationError} from "../core/validation-error";
 
-export const driverInputDtoValidation = (data: DriverInputDto): ValidationError[] => {
-    const errors: ValidationError[] = [];
-
-    if (!data.name || typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 15) {
-        errors.push({ field: 'name', message: 'Invalid name' });
-    }
-
-
-    // Аналогично добавляем проверки для других полей...
-    return errors;
-};
-
-//--------------------------
 
 export const driverInputDtoValidation = (data: DriverInputDto) :ValidationError[] => {
     const errors: ValidationError[] = [];
@@ -53,13 +40,27 @@ export const driverInputDtoValidation = (data: DriverInputDto) :ValidationError[
     }
 
     if(!Array.isArray(data.vehicleFeatures)){
-        errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures' });
+        errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures - this field must be an array' });
     }
     else if (data.vehicleFeatures.length) {
+        const existingFeatures = Object.values(data.vehicleFeatures);
 
+        if(data.vehicleFeatures.length > existingFeatures.length || data.vehicleFeatures.length < 1) {
+            errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures' });
+        }
+
+        for (const feature of data.vehicleFeatures) {
+            if (!existingFeatures.includes(feature)) {
+                errors.push({
+                    field: 'features',
+                    message: 'Invalid vehicleFeature:' + feature,
+                });
+                break;
+            }
+        }
+    }
 
     return errors;
 };
 
 
-vehicleFeatures: VehicleFeature[];
