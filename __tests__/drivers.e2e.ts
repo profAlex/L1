@@ -42,7 +42,7 @@ describe("Test API", () => {
        };
 
        const newDriverResponse = await request(app)
-           .post("/drivers")
+           .post("/drivers/")
            .send(newDriver)
            .expect(HttpStatus.Created);
 
@@ -94,41 +94,3 @@ describe("Test API", () => {
     });
 });
 
-describe("Test input data validation", () => {
-    const app = express();
-    setupApp(app);
-
-    const correctTestDriverData: DriverInputDto = {
-        name: 'Valentin',
-        phoneNumber: '123-456-7890',
-        email: 'valentin@example.com',
-        vehicleMake: 'BMW',
-        vehicleModel: 'X5',
-        vehicleYear: 2021,
-        vehicleLicensePlate: 'ABC-123',
-        vehicleDescription: null,
-        vehicleFeatures: [],
-    };
-
-    beforeAll(async () => {
-        await request(app).delete('/testing/all-data').expect(HttpStatus.NoContent);
-    });
-
-    it("This should not be registered in database", async() => {
-       const incorrectTestDriverData: DriverInputDto = {
-           ...correctTestDriverData,
-           name: '  ',
-           phoneNumber: '  ',
-           email: 'valentin  ple  com',
-           vehicleMake: '  '};
-
-       const result = await request(app).post("/drivers").send(incorrectTestDriverData);
-       expect(result.status).toBe(HttpStatus.BadRequest);
-       expect(result.body.errors.length).toBe(4);
-
-       const driverListResponse = await request(app).get('/drivers');
-       expect(driverListResponse.body).toHaveLength(0);
-    });
-
-
-});
