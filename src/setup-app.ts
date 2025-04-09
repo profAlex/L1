@@ -1,6 +1,9 @@
 import express, {Express, Request, Response} from "express";
 import {driversDb} from "./db/mock-data";
 import {Driver, DriverStatus} from "./drivers/driver-types";
+import {driverInputDtoValidation} from "./drivers/driver-body-validation";
+import {ValidationError} from "./core/validation-error";
+import {HttpStatus} from "./core/http-statuses";
 
 export const setupApp = (app: Express) => {
     app.use(express.json()); // middleware для парсинга JSON в теле запроса
@@ -26,6 +29,12 @@ export const setupApp = (app: Express) => {
 
 
     app.post('/drivers', (req: Request, res: Response) => {
+        const errors: ValidationError[] = driverInputDtoValidation(req.body);
+        if(errors.length > 0) {
+            res.status(HttpStatus.BadRequest).send({ errors: errors });
+            return;
+        }
+
         const newDriver: Driver = {
             id: driversDb.drivers.length ? driversDb.drivers[driversDb.drivers.length - 1].id + 1 : 1,
             status: DriverStatus.Online,

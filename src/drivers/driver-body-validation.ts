@@ -1,6 +1,7 @@
 import {DriverInputDto} from "./driver.input-dto";
 import {ValidationError} from "../core/validation-error";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const driverInputDtoValidation = (data: DriverInputDto) :ValidationError[] => {
     const errors: ValidationError[] = [];
@@ -13,7 +14,11 @@ export const driverInputDtoValidation = (data: DriverInputDto) :ValidationError[
         errors.push({ field: 'phoneNumber', message: 'Invalid phoneNumber' });
     }
 
-    if (!data.email || typeof data.email !== 'string' || data.email.trim().length < 6 || data.email.trim().length > 50) {
+    if (!data.email ||
+        typeof data.email !== 'string' ||
+        data.email.trim().length < 6 ||
+        data.email.trim().length > 50 ||
+        !EMAIL_REGEX.test(data.email)) {
         errors.push({ field: 'email', message: 'Invalid email' });
     }
 

@@ -1,16 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.driverInputDtoValidation = void 0;
-const driverInputDtoValidation = (data) => {
-    const errors = [];
-    if (!data.name || typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 15) {
-        errors.push({ field: 'name', message: 'Invalid name' });
-    }
-    // Аналогично добавляем проверки для других полей...
-    return errors;
-};
-exports.driverInputDtoValidation = driverInputDtoValidation;
-//--------------------------
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const driverInputDtoValidation = (data) => {
     const errors = [];
     if (!data.name || typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 15) {
@@ -19,7 +10,11 @@ const driverInputDtoValidation = (data) => {
     if (!data.phoneNumber || typeof data.phoneNumber !== 'string' || data.phoneNumber.trim().length < 8 || data.phoneNumber.trim().length > 15) {
         errors.push({ field: 'phoneNumber', message: 'Invalid phoneNumber' });
     }
-    if (!data.email || typeof data.email !== 'string' || data.email.trim().length < 6 || data.email.trim().length > 50) {
+    if (!data.email ||
+        typeof data.email !== 'string' ||
+        data.email.trim().length < 6 ||
+        data.email.trim().length > 50 ||
+        !EMAIL_REGEX.test(data.email)) {
         errors.push({ field: 'email', message: 'Invalid email' });
     }
     if (!data.vehicleMake || typeof data.vehicleMake !== 'string' || data.vehicleMake.trim().length < 2 || data.vehicleMake.trim().length > 30) {
@@ -40,12 +35,23 @@ const driverInputDtoValidation = (data) => {
         errors.push({ field: 'vehicleDescription', message: 'Invalid vehicleDescription' });
     }
     if (!Array.isArray(data.vehicleFeatures)) {
-        errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures' });
+        errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures - this field must be an array' });
     }
     else if (data.vehicleFeatures.length) {
-        return errors;
+        const existingFeatures = Object.values(data.vehicleFeatures);
+        if (data.vehicleFeatures.length > existingFeatures.length || data.vehicleFeatures.length < 1) {
+            errors.push({ field: 'vehicleFeatures', message: 'Invalid vehicleFeatures' });
+        }
+        for (const feature of data.vehicleFeatures) {
+            if (!existingFeatures.includes(feature)) {
+                errors.push({
+                    field: 'features',
+                    message: 'Invalid vehicleFeature:' + feature,
+                });
+                break;
+            }
+        }
     }
-    ;
-    vehicleFeatures: VehicleFeature[];
+    return errors;
 };
 exports.driverInputDtoValidation = driverInputDtoValidation;
