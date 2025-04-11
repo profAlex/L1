@@ -26,12 +26,12 @@ describe("Test API", () => {
     };
 
     beforeAll(async () => {
-        const res = await request(app).delete('/testing/all-data');
+        const res = await request(app).delete('/api/testing/all-data');
         expect(res.status).toBe(HttpStatus.NoContent);
     });
 
-    it("GET / - should respond with a 200 and a starting message", async() => {
-        const res = await request(app).get("/");
+    it("GET /api/ - should respond with a 200 and a starting message", async() => {
+        const res = await request(app).get('/');
         expect(res.status).toBe(HttpStatus.Ok);
         expect(res.text).toBe("Hello my first BACK-END APP!");
     });
@@ -42,7 +42,7 @@ describe("Test API", () => {
        };
 
        const newDriverResponse = await request(app)
-           .post("/drivers/")
+           .post("/api/drivers/")
            .send(newDriver)
            .expect(HttpStatus.Created);
 
@@ -57,12 +57,12 @@ describe("Test API", () => {
         };
 
         const res = await request(app)
-            .post("/drivers")
+            .post("/api/drivers")
             .send(newDriver)
             .expect(HttpStatus.Created);
 
         const getDriversResponse = await request(app)
-           .get("/drivers")
+           .get("/api/drivers")
            .expect(HttpStatus.Ok);
 
         expect(getDriversResponse.body[0].name).toBe('Valentin');
@@ -75,12 +75,12 @@ describe("Test API", () => {
 
     it('GET /drivers/:id - should return driver by id; ', async () => {
         const createResponse = await request(app)
-            .post('/drivers')
+            .post('/api/drivers')
             .send({ ...testDriverData, name: 'Another Driver' })
             .expect(HttpStatus.Created);
 
         const getResponse = await request(app)
-            .get(`/drivers/${createResponse.body.id}`)
+            .get(`/api/drivers/${createResponse.body.id}`)
             .expect(HttpStatus.Ok);
 
         expect(getResponse.body.name).toBe('Another Driver');

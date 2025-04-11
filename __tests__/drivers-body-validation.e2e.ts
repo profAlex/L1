@@ -21,7 +21,7 @@ describe("Test input data validation", () => {
     };
 
     beforeAll(async () => {
-        await request(app).delete('/testing/all-data').expect(HttpStatus.NoContent);
+        await request(app).delete('/api/testing/all-data').expect(HttpStatus.NoContent);
     });
 
     it("This should not be registered in database", async() => {
@@ -32,11 +32,11 @@ describe("Test input data validation", () => {
             email: 'valentin  ple  com',
             vehicleMake: '  '};
 
-        const result = await request(app).post("/drivers").send(incorrectTestDriverData);
+        const result = await request(app).post("/api/drivers").send(incorrectTestDriverData);
         expect(result.status).toBe(HttpStatus.BadRequest);
         expect(result.body.errors.length).toBe(4);
 
-        const driverListResponse = await request(app).get('/drivers');
+        const driverListResponse = await request(app).get('/api/drivers');
         expect(driverListResponse.body).toHaveLength(0);
     });
 
